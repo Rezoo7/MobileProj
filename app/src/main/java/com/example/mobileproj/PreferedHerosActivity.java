@@ -13,9 +13,14 @@ import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreferedHerosActivity extends AppCompatActivity {
 
@@ -41,6 +46,19 @@ public class PreferedHerosActivity extends AppCompatActivity {
         final TabLayout herosTab = findViewById(R.id.herosTab);
         final TextView srchTextView = findViewById(R.id.srchTextView);
         final TextView tabTextView = findViewById(R.id.tabTextView);
+        final ListView herosListView = findViewById(R.id.herosListView);
+
+        List<Hero> heros = new ArrayList<>();
+        heros.add(new Hero(true, "SW_Stephanie", "Malherbe"));
+        heros.add(new Hero(true, "SW_Remi", "Thomas"));
+        heros.add(new Hero(false, "M_Louis", "Lebrun"));
+        heros.add(new Hero(false, "M_Alexis", "Leleu"));
+        heros.add(new Hero(true, "SW_Jason", "Giffard"));
+        heros.add(new Hero(false, "M_Erwan", "Dufourt"));
+
+        ArrayAdapter<Hero> herosAdapter = new ArrayAdapter<>(PreferedHerosActivity.this, android.R.layout.simple_list_item_1, heros);
+        herosListView.setAdapter(herosAdapter);
+        herosAdapter.sort(Hero.COMPARATEUR_HEROS);
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override

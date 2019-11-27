@@ -8,92 +8,100 @@
     tools:context=".PreferedHerosActivity"
     tools:showIn="@layout/activity_prefered_heros">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="horizontal">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/textInputLayout"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/heroInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1">
+                    android:hint="@string/hint_hero_input" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/heroInput"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/hint_hero_input" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/clearBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="0"
-                    android:text="@string/clear_btn" />
-
-            </LinearLayout>
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/herosTab"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/allTab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_item_all" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/swTab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_item_sw" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:id="@+id/marvelTab"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/tab_item_marvel" />
-            </com.google.android.material.tabs.TabLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|top"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/srchTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/tabTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Opened tab : 0" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/clearBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="0"
+                android:text="@string/clear_btn" />
 
         </LinearLayout>
-    </ScrollView>
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/herosTab"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/allTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_item_all" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/swTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_item_sw" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/marvelTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_item_marvel" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|top"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/srchTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/tabTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Opened tab : 0" />
+
+        </LinearLayout>
+
+        <ListView
+            android:id="@+id/herosListView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
