@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class Hero {
 
+    private static int id = 0;
     private boolean isFromSW;
     private String heroName;
     private String heroLastName;
@@ -27,6 +28,7 @@ public class Hero {
      * Temp consructor
      */
     public Hero(boolean isFromSW, String heroName, String heroLastName) {
+        id++;
         this.isFromSW = isFromSW;
         this.heroName = heroName;
         this.heroLastName = heroLastName;
@@ -87,4 +89,12 @@ public class Hero {
                 return compNom;
         }
     };
+
+    public int getId() {
+        return id;
+    }
+
+    public boolean isFromSW() {
+        return isFromSW;
+    }
 }
