@@ -24,6 +24,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.regex.*;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class PreferedHeroesActivity extends AppCompatActivity {
 
     //region LAYOUT ELEMENTS
@@ -70,12 +76,12 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroes = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
 
         //region Hard coded data
-        heroes[0].add(new Hero(true, "Stephanie", "Malherbe"));
-        heroes[0].add(new Hero(true, "Remi", "Thomas"));
-        heroes[0].add(new Hero(true, "Jason", "Giffard"));
-        heroes[0].add(new Hero(false, "Louis", "Lebrun"));
-        heroes[0].add(new Hero(false, "Alexis", "Leleu"));
-        heroes[0].add(new Hero(false, "Erwan", "Dufourt"));
+        heroes[0].add(new Hero(true, "Stephanie Malherbe"));
+        heroes[0].add(new Hero(true, "Remi Thomas"));
+        heroes[0].add(new Hero(true, "Jason Giffard"));
+        heroes[0].add(new Hero(false, "Louis Lebrun"));
+        heroes[0].add(new Hero(false, "Alexis Leleu"));
+        heroes[0].add(new Hero(false, "Erwan Dufourt"));
         //endregion
 
         // Browse all heroes to distribute them in star wars or marvel list
@@ -110,6 +116,46 @@ public class PreferedHeroesActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 // TODO rechercher dans les API (ou pas ici)
+
+               /* Retrofit retro = new Retrofit.Builder()
+                        .baseUrl("https://swapi.co/api/people/1")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                API api = retro.create(API.class);
+                Call<List<Hero>> call = (Call<List<Hero>>) api.getPosts();
+
+                call.enqueue(new Callback<List<Hero>>() {
+                    @Override
+                    public void onResponse(Call<List<Hero>> call, Response<List<Hero>> response) {
+
+                        if(!response.isSuccessful()){
+                            System.out.println("Code: "+ response.code());
+                            return;
+                        }
+
+                        List<Hero> heros = response.body();
+
+                        for(Hero hero : heros){
+
+                            String name = hero.getHeroName();
+
+                            Hero h = new Hero(true,name);
+
+                            String content = "";
+                            content += "Name : " + name + "\n";
+                            System.out.println(content);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Hero>> call, Throwable t) {
+                        System.out.println("BAH NON");
+                    }
+                });
+
+                */
+
                 srchTextView.setText(charSequence);
                 filterAndPopulateAdapter();
             }
@@ -157,5 +203,8 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         Collections.reverse(temp);
         heroesAdapter.addAll(temp);
     }
+
+
+
 
 }
