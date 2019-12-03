@@ -1,6 +1,8 @@
 package com.example.mobileproj;
 
-public class Film {
+import java.io.Serializable;
+
+public class Film implements Serializable {
 
     private String filmName;
     private String imgURL;

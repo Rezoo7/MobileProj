@@ -1,8 +1,7 @@
 package com.example.mobileproj;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +12,9 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class HeroCreationActivity extends AppCompatActivity {
 
@@ -65,30 +67,42 @@ public class HeroCreationActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //region Get infos
-                String nodata = "Inconnu";
+                final String NO_DATA = "Inconnu";
 
                 String heroName = nameInput.getText().toString();
-                if( TextUtils.isEmpty(nameInput.getText()))
-                    nameInput.setError( "Le nom du héros doit être précisé !");
+                if(TextUtils.isEmpty(nameInput.getText())) {
+                    nameInput.setError("Le nom du héros doit être précisé !");
+                    return;
+                }
 
                 String homeworld = homeworldInput.getText().toString();
-                if(TextUtils.isEmpty(homeworldInput.getText())) homeworld = nodata;
+                if(TextUtils.isEmpty(homeworldInput.getText())) homeworld = NO_DATA;
 
                 String gender = genderSpinner.getSelectedItem().toString();
-                if (gender.equals("@arrays/no_more_choice")) gender = nodata;
+                if (gender.equals("@arrays/no_more_choice")) gender = NO_DATA;
 
                 String bday = bdayInput.getText().toString();
-                if(TextUtils.isEmpty(bdayInput.getText())) bday = nodata;
+                if(TextUtils.isEmpty(bdayInput.getText())) bday = NO_DATA;
 
-                String size = sizeInput.getText().toString() + "cm";
-                if(TextUtils.isEmpty(sizeInput.getText())) size = nodata + "e";
+                float size = 0;
+                if(!TextUtils.isDigitsOnly(sizeInput.getText()))
+                    size = Float.parseFloat(sizeInput.getText().toString());
 
-                String weight = weightInput.getText().toString() + "kg";
-                if(TextUtils.isEmpty(weightInput.getText())) weight = nodata;
+                float weight = 0;
+                if(!TextUtils.isDigitsOnly(weightInput.getText()))
+                    weight = Float.parseFloat(weightInput.getText().toString());
                 //endregion
 
-                // TODO Create Hero and return it
+                //region Send infos
+                // TODO : fromSW & imgPath
+                Intent intent = new Intent();
+                Hero hero = new Hero(true, isFav, heroName, homeworld, gender, bday, size, weight, "", equipments, films);
+                intent.putExtra("CreatedHero", hero);
+                setResult(Activity.RESULT_OK, intent);
+                finish();
+                //endregion
             }
         });
     }

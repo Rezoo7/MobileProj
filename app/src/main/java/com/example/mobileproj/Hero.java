@@ -1,27 +1,27 @@
 package com.example.mobileproj;
 
-import android.media.Image;
-
 import org.json.JSONArray;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
+import java.util.List;
 
-public class Hero {
+public class Hero implements Serializable {
 
     private static int id = 0;
+    private boolean isFavorite;
     private boolean isFromSW;
     private String heroName;
-    /*private Date birthDate;
+    private String birthDate;
     private String homeWorld;
-    private boolean isMale;
+    private String gender;
     private float size;
     private float weight;
-    private String imgURL;
+    private String imgPath;
 
     private ArrayList<Equipment> equipments;
-    private ArrayList<Film> films;*/
+    private ArrayList<Film> films;
 
     /**
      * Temp consructor
@@ -35,17 +35,19 @@ public class Hero {
     /**
      * Create a new hero with parameters
      */
-    /*public Hero(boolean isFromSW, String heroName, String heroLastName, Date birthDate, String homeWorld, boolean isMale, float size, float weight, String imgURL) {
+    public Hero(boolean isFromSW, boolean isFavorite, String heroName, String homeWorld, String gender, String birthDate, float size, float weight, String imgPath, List<Equipment> equipments, List<Film> films) {
         this.isFromSW = isFromSW;
+        this.isFavorite = isFavorite;
         this.heroName = heroName;
-        this.heroLastName = heroLastName;
         this.birthDate = birthDate;
         this.homeWorld = homeWorld;
-        this.isMale = isMale;
+        this.gender = gender;
         this.size = size;
         this.weight = weight;
-        this.imgURL = imgURL;
-    }*/
+        this.imgPath = imgPath;
+        this.equipments = new ArrayList<>(equipments);
+        this.films = new ArrayList<>(films);
+    }
 
     /**
      * Create a new hero with a json array

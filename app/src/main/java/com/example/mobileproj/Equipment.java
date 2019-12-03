@@ -1,8 +1,8 @@
 package com.example.mobileproj;
 
-import android.media.Image;
+import java.io.Serializable;
 
-public class Equipment {
+public class Equipment implements Serializable {
 
     private String EqmtName;
     private String imgURL;

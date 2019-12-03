@@ -1,14 +1,8 @@
 package com.example.mobileproj;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.tabs.TabLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,20 +11,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class PreferedHeroesActivity extends AppCompatActivity {
+
+    final int FLAG_CREATE_HERO = 777;
 
     //region LAYOUT ELEMENTS
     private EditText heroInput;
@@ -67,7 +64,10 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PreferedHeroesActivity.this, HeroCreationActivity.class));
+                Intent intent = new Intent(PreferedHeroesActivity.this, HeroCreationActivity.class);
+                startActivityForResult(intent, FLAG_CREATE_HERO);
+
+                //Hero hero = new Hero(true, heroName, homeworld, gender, bday, size, weight, null);
             }
         });
 
@@ -177,6 +177,8 @@ public class PreferedHeroesActivity extends AppCompatActivity {
                 heroesAdapter.sort(Hero.COMPARATEUR_HEROS);
             }
         });
+
+
     }
 
     /**
@@ -187,14 +189,18 @@ public class PreferedHeroesActivity extends AppCompatActivity {
 
         // Browse heroes of the current opened tab
         for (Hero hero : heroes[openedTabItem]) {
+            // Get rid of accents and the case
+            String inputStr = Utils.stripAcnt(heroInput.getText().toString().toLowerCase());
+
             // Separate all chars of the text input value with ".*" to make it more flexible
             String patrnStr = ".*";
-            for (char c : heroInput.getText().toString().toLowerCase().toCharArray()) {
+
+            for (char c : inputStr.toCharArray()) {
                 patrnStr += c + ".*";
             }
             Pattern pattern = Pattern.compile(patrnStr);
             // Find the pattern in the first and last name of the hero (and is SW bool too, this bool is used only for debugging so np)
-            Matcher matcher = pattern.matcher(hero.toString().toLowerCase());
+            Matcher matcher = pattern.matcher(Utils.stripAcnt(hero.toString().toLowerCase()));
             if (matcher.find())
                 temp.add(hero);
         }
@@ -204,7 +210,22 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroesAdapter.addAll(temp);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == Activity.RESULT_OK && requestCode == FLAG_CREATE_HERO) { // We've just created a hero
 
+            Hero hero = (Hero) data.getSerializableExtra("CreatedHero");
+            heroes[0].add(hero);
+            if (hero.isFromSW()) heroes[1].add(hero);
+            else heroes[2].add(hero);
+
+            //Toast.makeText(getApplicationContext(), "It worked ! ", Toast.LENGTH_LONG).show();
+
+            filterAndPopulateAdapter();
+
+        } else Toast.makeText(getApplicationContext(), "Error :'(", Toast.LENGTH_LONG).show();
+    }
 
 }
