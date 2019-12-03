@@ -13,7 +13,6 @@ public class Hero {
     private static int id = 0;
     private boolean isFromSW;
     private String heroName;
-    private String heroLastName;
     /*private Date birthDate;
     private String homeWorld;
     private boolean isMale;
@@ -27,11 +26,10 @@ public class Hero {
     /**
      * Temp consructor
      */
-    public Hero(boolean isFromSW, String heroName, String heroLastName) {
+    public Hero(boolean isFromSW, String heroName) {
         id++;
         this.isFromSW = isFromSW;
         this.heroName = heroName;
-        this.heroLastName = heroLastName;
     }
 
     /**
@@ -72,8 +70,16 @@ public class Hero {
         //this.films.add(film);
     }
 
+    public String getHeroName() {
+        return heroName;
+    }
+
+    public void setHeroName(String heroName) {
+        this.heroName = heroName;
+    }
+
     public String toString() {
-        String str = heroName + " " + heroLastName
+        String str = heroName
                 + " " + (isFromSW ? "<SW>" : "<M>");
         return str;
     }
@@ -82,11 +88,8 @@ public class Hero {
         @Override
         public int compare(Hero o1, Hero o2) {
             int compNom = String.CASE_INSENSITIVE_ORDER.compare(o1.heroName, o2.heroName);
-            if (compNom == 0) {
-                return String.CASE_INSENSITIVE_ORDER.compare(o1.heroLastName, o2.heroLastName);
-            }
-            else
-                return compNom;
+
+            return compNom;
         }
     };
 
