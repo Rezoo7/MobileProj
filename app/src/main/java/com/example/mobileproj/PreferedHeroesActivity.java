@@ -217,15 +217,16 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         if (resultCode == Activity.RESULT_OK && requestCode == FLAG_CREATE_HERO) { // We've just created a hero
 
             Hero hero = (Hero) data.getSerializableExtra("CreatedHero");
-            heroes[0].add(hero);
-            if (hero.isFromSW()) heroes[1].add(hero);
-            else heroes[2].add(hero);
-
-            //Toast.makeText(getApplicationContext(), "It worked ! ", Toast.LENGTH_LONG).show();
-
-            filterAndPopulateAdapter();
-
-        } else Toast.makeText(getApplicationContext(), "Error :'(", Toast.LENGTH_LONG).show();
+            if (hero.isFav()) {
+                heroes[0].add(hero);
+                if (hero.isFromSW()) heroes[1].add(hero);
+                else heroes[2].add(hero);
+                filterAndPopulateAdapter();
+            } else {
+                // Creation of heroes which we don't like can be cool to add to a database. Here it's useless.
+                Toast.makeText(getApplicationContext(), "Un héro doit être liké pour être ajouté à la liste des favoris.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }

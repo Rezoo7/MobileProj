@@ -102,4 +102,8 @@ public class Hero implements Serializable {
     public boolean isFromSW() {
         return isFromSW;
     }
+
+    public boolean isFav() {
+        return isFavorite;
+    }
 }
