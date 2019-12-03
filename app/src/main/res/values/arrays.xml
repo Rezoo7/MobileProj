@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="gender_combo">Gender
+        <item>Inconnu</item>
         <item>Homme</item>
         <item>Femme</item>
-        <item>Inconnu</item>
-        <item>Pas d\'autre choix déso</item>
+        <item name="no_more_choice">Pas d\'autres choix déso</item>
     </string-array>
 </resources>

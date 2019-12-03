@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ConstraintLayout fond = (ConstraintLayout) findViewById(R.id.fond);
+        final ConstraintLayout fond = findViewById(R.id.fond);
         final Button prefBtn = findViewById(R.id.prefBtn);
 
         fond.setOnClickListener(new View.OnClickListener() {

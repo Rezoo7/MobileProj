@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.regex.*;
 
@@ -45,7 +47,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        //region Assigning layout elements
+        //region Layout elements assignation
         heroInput = findViewById(R.id.heroInput);
         clearBtn = findViewById(R.id.clearBtn);
         herosTab = findViewById(R.id.herosTab);
@@ -152,6 +154,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         }
         // Temp list with matching heroes replace previous the list
         heroesAdapter.clear();
+        Collections.reverse(temp);
         heroesAdapter.addAll(temp);
     }
 

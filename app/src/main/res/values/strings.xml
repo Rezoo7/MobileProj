@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">MobileProj</string>
-    <string name="title_activity_prefered_heroes">Prefered Heroes</string>
-    <string name="credits">Mobil Proj\n\nRémi Thomas\nMaxime Guigourez</string>
-    <string name="pref_btn">Prefered</string>
-    <string name="hint_hero_input">Hero Name</string>
-    <string name="tab_item_all">All</string>
-    <string name="tab_item_sw">StarWars</string>
+    <string name="app_name">Héros binet</string>
+    <string name="title_activity_prefered_heroes">Héros préférés</string>
+    <string name="credits">Projet Android\n\nRémi Thomas\nMaxime Guigourez</string>
+    <string name="pref_btn">Héros préférés</string>
+    <string name="hint_hero_input">Nom d\'un héros</string>
+    <string name="tab_item_all">Tous</string>
+    <string name="tab_item_sw">Star Wars</string>
     <string name="tab_item_marvel">Marvel</string>
-    <string name="clear_btn">Clear name</string>
+    <string name="clear_btn">Vider nom</string>
     <string name="set_identity">Identité</string>
     <string name="set_equip">Equipement</string>
     <string name="set_films">Apparitions</string>
@@ -17,4 +17,5 @@
     <string name="bday_input">Naissance</string>
     <string name="size_input">Taille (cm)</string>
     <string name="weight_input">Poids (kg)</string>
+    <string name="create_hero_btn">Créer</string>
 </resources>
