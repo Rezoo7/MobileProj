@@ -81,9 +81,9 @@ public class Hero {
     public static final Comparator<Hero> COMPARATEUR_HEROS = new Comparator<Hero>() {
         @Override
         public int compare(Hero o1, Hero o2) {
-            int compNom = String.CASE_INSENSITIVE_ORDER.compare(o1.heroLastName, o2.heroLastName);
+            int compNom = String.CASE_INSENSITIVE_ORDER.compare(o1.heroName, o2.heroName);
             if (compNom == 0) {
-                return String.CASE_INSENSITIVE_ORDER.compare(o1.heroName, o2.heroName);
+                return String.CASE_INSENSITIVE_ORDER.compare(o1.heroLastName, o2.heroLastName);
             }
             else
                 return compNom;

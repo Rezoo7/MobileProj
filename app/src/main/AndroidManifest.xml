@@ -13,8 +13,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".HeroCreationActivity"></activity>
         <activity
-            android:name=".PreferedHerosActivity"
-            android:label="@string/title_activity_prefered_heros"
+            android:name=".PreferedHeroesActivity"
+            android:label="@string/title_activity_prefered_heroes"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ListeActivity" />
         <activity android:name=".MainActivity">

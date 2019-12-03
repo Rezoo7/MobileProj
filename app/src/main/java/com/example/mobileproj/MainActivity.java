@@ -3,13 +3,10 @@ package com.example.mobileproj;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         prefBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, PreferedHerosActivity.class));
+                startActivity(new Intent(MainActivity.this, PreferedHeroesActivity.class));
             }
         });
     }
