@@ -8,4 +8,13 @@
     <string name="tab_item_sw">StarWars</string>
     <string name="tab_item_marvel">Marvel</string>
     <string name="clear_btn">Clear name</string>
+    <string name="set_identity">Identité</string>
+    <string name="set_equip">Equipement</string>
+    <string name="set_films">Apparitions</string>
+    <string name="first_name_input">Prénom</string>
+    <string name="last_name_input">Nom</string>
+    <string name="homeworld_input">Monde d\'origine</string>
+    <string name="bday_input">Naissance</string>
+    <string name="size_input">Taille (cm)</string>
+    <string name="weight_input">Poids (kg)</string>
 </resources>
