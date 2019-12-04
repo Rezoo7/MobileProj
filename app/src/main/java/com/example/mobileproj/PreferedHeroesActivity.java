@@ -2,6 +2,7 @@ package com.example.mobileproj;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,8 +17,12 @@ import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -85,6 +90,23 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroes[0].add(new Hero(false, true, "Alexis Leleu", "St Jean", "Homme", "21/01/2000", 172, 62, "", e, f));
         heroes[0].add(new Hero(false, true, "Erwan Dufourt", "Granville", "Homme", "31/01/1999", 174, 72, "", e, f));
         //endregion
+
+
+        // Retrieve createdHeroes list
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
+        Toast.makeText(getApplicationContext(), "'" + heroesJSONtoGet + "'", Toast.LENGTH_LONG).show();
+
+        // Deserialization
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<Hero>>(){}.getType();
+        Collection<Hero> savedHeroes = gson.fromJson(heroesJSONtoGet, collectionType);
+
+        // Add savedHeroes to the main list
+        if (savedHeroes == null) savedHeroes = new ArrayList<>();
+        heroes[0].addAll(savedHeroes);
+        //Toast.makeText(getApplicationContext(), savedHeroes.size() + " héros sauvegardés", Toast.LENGTH_LONG).show();
+
 
         // Browse all heroes to distribute them in star wars or marvel list
         for (Hero hero : heroes[0]) {
