@@ -43,9 +43,6 @@ public class HeroDetailsActivity extends AppCompatActivity {
         if (hero.getImgPath() != null && hero.getImgPath().length() > 0) {
             Uri imgUri = Uri.parse(hero.getImgPath());
             globalIV.setImageURI(imgUri);
-            Toast.makeText(getApplicationContext(), "'" + hero.getImgPath() + "'", Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "aucune image", Toast.LENGTH_LONG).show();
         }
 
         String world = hero.getHomeWorld();

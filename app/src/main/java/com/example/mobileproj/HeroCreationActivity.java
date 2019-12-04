@@ -2,8 +2,7 @@ package com.example.mobileproj;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -16,13 +15,19 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
 
 public class HeroCreationActivity extends AppCompatActivity {
 
@@ -73,7 +78,7 @@ public class HeroCreationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent./*ACTION_GET_CONTENT*/ACTION_OPEN_DOCUMENT);
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 startActivityForResult(Intent.createChooser(intent, "Selectionner une image"), PICK_IMAGE_FLAG);
             }
         });
@@ -116,29 +121,58 @@ public class HeroCreationActivity extends AppCompatActivity {
                 String bday = bdayInput.getText().toString();
                 if(TextUtils.isEmpty(bdayInput.getText())) bday = NO_DATA;
 
-                int size = 0;
+                int size = 5;
                 if(!TextUtils.isDigitsOnly(sizeInput.getText()))
                     size = Integer.parseInt(sizeInput.getText().toString());
 
-                int weight = 0;
+                int weight = 5;
                 if(!TextUtils.isDigitsOnly(weightInput.getText()))
                     weight = Integer.parseInt(weightInput.getText().toString());
                 //endregion
 
+                Hero hero = new Hero(isSW, isFav, heroName, homeworld, gender, bday, size, weight, mainImgPath, equipments, films);
+
+
+                //region Add the new hero to the list of the created
+
+                // Retrieve createdHeroes list
+                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
+                Toast.makeText(getApplicationContext(), "'" + heroesJSONtoGet + "'", Toast.LENGTH_LONG).show();
+
+                // Deserialization
+                Gson gson = new Gson();
+                Type collectionType = new TypeToken<Collection<Hero>>(){}.getType();
+                Collection<Hero> savedHeroes = gson.fromJson(heroesJSONtoGet, collectionType);
+
+
+                // Add the new hero
+                if (savedHeroes == null) savedHeroes = new ArrayList<>();
+                savedHeroes.add(hero);
+
+
+                // Serialization
+                String heroesJSONtoSet = gson.toJson(savedHeroes);
+                //Toast.makeText(getApplicationContext(), "'" + heroesJSONtoSet + "'", Toast.LENGTH_LONG).show();
+
+                // Save createdHeroes to sharedPreferences
+                SharedPreferences.Editor prefsEditor = getPreferences(MODE_PRIVATE).edit();
+                prefsEditor.putString("CreatedHeroes", heroesJSONtoSet);
+                prefsEditor.commit();
+                //endregion
+
+
                 //region Send infos
                 Intent intent = new Intent();
-                Hero hero = new Hero(isSW, isFav, heroName, homeworld, gender, bday, size, weight, mainImgPath, equipments, films);
                 intent.putExtra("CreatedHero", hero);
                 setResult(Activity.RESULT_OK, intent);
-                finish();
+                //finish(); // TODO : REMOVE COMMENT
                 //endregion
             }
         });
 
         licenceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
                 isSW = !isChecked;
                 licenceSwitch.setText((isSW ? "Star Wars" : "Marvel"));
             }
