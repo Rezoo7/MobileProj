@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
@@ -15,6 +17,7 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +29,8 @@ public class ListActivity extends AppCompatActivity {
     private TabLayout herosTab;
     private ListView herosListView;
     //endregion
+
+    TextView resultTV;
 
 
     @Override
@@ -40,44 +45,47 @@ public class ListActivity extends AppCompatActivity {
         herosListView = findViewById(R.id.herosListView);
         //endregion
 
-        final String url = "https://swapi.co/api/";
+        resultTV = findViewById(R.id.resultTV);
+        
 
         clearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String perso = "people/";
+                Ion.with(view.getContext())
+                        .load("https://swapi.co/api/people/?format=json")
+                        //.setLogging("ION_LOGS", Log DEBUG) // ACTIVER LE MODE DEBUG
+                        .asJsonObject()
+                        .setCallback(new FutureCallback<JsonObject>() {
+                            @Override
+                            public void onCompleted(Exception e, JsonObject result) {
+                                if (result != null) {
+                                    JsonArray list = result.getAsJsonArray("results").getAsJsonArray();
+                                    Iterator<JsonElement> it = list.iterator();
+                                    while(it.hasNext()) {
 
-                for(int i=0; i<= 10; i++) {
+                                        //Hero(isFromSW, isFavorite, heroName, homeWorld, gender, birthDate, int size, int weight, imgPath, equipments, films)
 
-                    Ion.with(view.getContext())
-                            .load(url+perso+i)
-                            .asJsonArray()
-                            .setCallback(new FutureCallback<JsonArray>() {
-                                @Override
-                                public void onCompleted(Exception e, JsonArray result) {
-                                    Iterator<JsonElement> ite = result.iterator();
-                                    while (ite.hasNext()) {
-                                        JsonObject item = ite.next().getAsJsonObject();
-                                        String name = item.getAsJsonPrimitive("nom").getAsString();
-                                        String homeW = item.getAsJsonPrimitive("homeworld").getAsString();
-                                        String gender = item.getAsJsonPrimitive("gender").getAsString();
-                                        String birth = item.getAsJsonPrimitive("birth_year").getAsString();
-                                        int size = item.getAsJsonPrimitive("height").getAsInt();
-                                        int weight = item.getAsJsonPrimitive("mass").getAsInt();
-                                        String imgPath = item.getAsJsonPrimitive("nom").getAsString();
-                                        String equip = item.getAsJsonPrimitive("nom").getAsString();
+                                        JsonObject jhero = it.next().getAsJsonObject();
+                                        String heroName = jhero.getAsJsonPrimitive("name").getAsString();
+                                        String homeWorldURL = jhero.getAsJsonPrimitive("homeworld").getAsString();
+                                        String gender = jhero.getAsJsonPrimitive("gender").getAsString();
+                                        String birthDate = jhero.getAsJsonPrimitive("birth_year").getAsString();
+                                        int size = jhero.getAsJsonPrimitive("height").getAsInt();
+                                        int weight = jhero.getAsJsonPrimitive("mass").getAsInt();
 
-                                        ArrayList<Film> listef = new ArrayList<>();
-
-
-                                        //Hero h = new Hero(true, false, name);
-                                        //monAdapter.add(install);
+                                        List<Equipment> equips = new ArrayList<>();
+                                        List<Film> films = new ArrayList<>();
+                                        Hero hero = new Hero(true, false, heroName, "fuckURLs", gender, birthDate, size, weight, "", equips, films);
+                                        resultTV.setText(hero.toString());
                                     }
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "Empty result data", Toast.LENGTH_LONG).show();
                                 }
+                            }
+                        });
 
-                            });
-                }
+
             }
         });
 
