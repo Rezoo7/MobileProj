@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +39,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
     private ListView herosListView;
     //endregion
 
-    private int openedTabItem = 0;
+    private int openedTab = 0;
     private ArrayAdapter<Hero> heroesAdapter;
     private List<Hero>[] heroes;
 
@@ -66,8 +67,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(PreferedHeroesActivity.this, HeroCreationActivity.class);
                 startActivityForResult(intent, FLAG_CREATE_HERO);
-
-                //Hero hero = new Hero(true, heroName, homeworld, gender, bday, size, weight, null);
             }
         });
 
@@ -95,7 +94,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
 
         // An adapter filterable
         herosListView.setTextFilterEnabled(true);
-        filterAndPopulateAdapter(); // equivalent to : heroesAdapter.addAll(heroes[openedTabItem]); // but with filter
+        filterAndPopulateAdapter(); // equivalent to : heroesAdapter.addAll(heroes[openedTab]); // but with filter
         herosListView.setAdapter(heroesAdapter);
         heroesAdapter.sort(Hero.COMPARATEUR_HEROS);
 
@@ -168,8 +167,8 @@ public class PreferedHeroesActivity extends AppCompatActivity {
 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                openedTabItem = herosTab.getSelectedTabPosition();
-                tabTextView.setText("Opened tab : " + openedTabItem);
+                openedTab = herosTab.getSelectedTabPosition();
+                tabTextView.setText("Opened tab : " + openedTab);
 
                 // Clear and repopulate with new list
                 heroesAdapter.clear();
@@ -178,6 +177,15 @@ public class PreferedHeroesActivity extends AppCompatActivity {
             }
         });
 
+        herosListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                Intent intent = new Intent(PreferedHeroesActivity.this, HeroDetailsActivity.class);
+                intent.putExtra("ClickedHero", heroesAdapter.getItem(position));
+                startActivity(intent);
+                //Toast.makeText(PreferedHeroesActivity.this, "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
@@ -188,7 +196,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         List<Hero> temp = new ArrayList<>();
 
         // Browse heroes of the current opened tab
-        for (Hero hero : heroes[openedTabItem]) {
+        for (Hero hero : heroes[openedTab]) {
             // Get rid of accents and the case
             String inputStr = Utils.stripAcnt(heroInput.getText().toString().toLowerCase());
 

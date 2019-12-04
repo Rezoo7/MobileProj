@@ -122,7 +122,6 @@ public class HeroCreationActivity extends AppCompatActivity {
                 //endregion
 
                 //region Send infos
-                // TODO : fromSW & imgPath
                 Intent intent = new Intent();
                 Hero hero = new Hero(isSW, isFav, heroName, homeworld, gender, bday, size, weight, mainImgPath, equipments, films);
                 intent.putExtra("CreatedHero", hero);
