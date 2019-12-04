@@ -4,6 +4,6 @@
         <item>Inconnu</item>
         <item>Homme</item>
         <item>Femme</item>
-        <item name="no_more_choice">Pas d\'autres choix déso</item>
+        <item>Pas d\'autres choix déso</item>
     </string-array>
 </resources>

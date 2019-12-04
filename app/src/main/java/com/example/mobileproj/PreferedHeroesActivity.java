@@ -75,12 +75,15 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroes = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
 
         //region Hard coded data
-        heroes[0].add(new Hero(true, "Stephanie Malherbe"));
-        heroes[0].add(new Hero(true, "Remi Thomas"));
-        heroes[0].add(new Hero(true, "Jason Giffard"));
-        heroes[0].add(new Hero(false, "Louis Lebrun"));
-        heroes[0].add(new Hero(false, "Alexis Leleu"));
-        heroes[0].add(new Hero(false, "Erwan Dufourt"));
+        List<Equipment> e = new ArrayList<>();
+        List<Film> f = new ArrayList<>();
+        heroes[0].add(new Hero(false, true, "Amélie Thomas", "St Jean", "Femme", "19/09/2001", 168, 56, "", e, f));
+        heroes[0].add(new Hero(true, true, "Stephanie Malherbe", "Pacé", "Femme", "18/11/1998", 175, 54, "", e, f));
+        heroes[0].add(new Hero(true, true, "Rémi Thomas", "St Jean", "Homme", "26/02/1999", 178, 75, "", e, f));
+        heroes[0].add(new Hero(false, true, "Louis Lebrun", "St Jean", "Homme", "06/12/1999", 182, 67, "", e, f));
+        heroes[0].add(new Hero(true, true, "Jason Giffard", "Montviron", "Homme", "06/04/1998", 175, 76, "", e, f));
+        heroes[0].add(new Hero(false, true, "Alexis Leleu", "St Jean", "Homme", "21/01/2000", 172, 62, "", e, f));
+        heroes[0].add(new Hero(false, true, "Erwan Dufourt", "Granville", "Homme", "31/01/1999", 174, 72, "", e, f));
         //endregion
 
         // Browse all heroes to distribute them in star wars or marvel list
@@ -96,7 +99,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         herosListView.setTextFilterEnabled(true);
         filterAndPopulateAdapter(); // equivalent to : heroesAdapter.addAll(heroes[openedTab]); // but with filter
         herosListView.setAdapter(heroesAdapter);
-        heroesAdapter.sort(Hero.COMPARATEUR_HEROS);
+
 
 
         // Clear text input when clear button pressed
@@ -173,7 +176,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
                 // Clear and repopulate with new list
                 heroesAdapter.clear();
                 filterAndPopulateAdapter();
-                heroesAdapter.sort(Hero.COMPARATEUR_HEROS);
             }
         });
 
@@ -183,7 +185,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
                 Intent intent = new Intent(PreferedHeroesActivity.this, HeroDetailsActivity.class);
                 intent.putExtra("ClickedHero", heroesAdapter.getItem(position));
                 startActivity(intent);
-                //Toast.makeText(PreferedHeroesActivity.this, "" + position, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -216,6 +217,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroesAdapter.clear();
         Collections.reverse(temp);
         heroesAdapter.addAll(temp);
+        heroesAdapter.sort(Hero.COMPARATEUR_HEROS);
     }
 
     @Override

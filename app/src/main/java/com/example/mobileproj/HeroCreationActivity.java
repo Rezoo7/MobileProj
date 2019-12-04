@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -72,8 +73,8 @@ public class HeroCreationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_FLAG);
+                intent.setAction(Intent./*ACTION_GET_CONTENT*/ACTION_OPEN_DOCUMENT);
+                startActivityForResult(Intent.createChooser(intent, "Selectionner une image"), PICK_IMAGE_FLAG);
             }
         });
 
@@ -95,7 +96,7 @@ public class HeroCreationActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //region Get infos
-                final String NO_DATA = "Inconnu";
+                final String NO_DATA = "";
 
                 String heroName = nameInput.getText().toString();
                 if(TextUtils.isEmpty(nameInput.getText())) {
@@ -106,19 +107,22 @@ public class HeroCreationActivity extends AppCompatActivity {
                 String homeworld = homeworldInput.getText().toString();
                 if(TextUtils.isEmpty(homeworldInput.getText())) homeworld = NO_DATA;
 
-                String gender = genderSpinner.getSelectedItem().toString();
-                if (gender.equals("@arrays/no_more_choice")) gender = NO_DATA;
+                String gender;
+                if (genderSpinner.getSelectedItem() != genderSpinner.getItemAtPosition(0) &&
+                        genderSpinner.getSelectedItem() != genderSpinner.getItemAtPosition(3)) {
+                    gender = genderSpinner.getSelectedItem().toString();
+                } else gender = NO_DATA;
 
                 String bday = bdayInput.getText().toString();
                 if(TextUtils.isEmpty(bdayInput.getText())) bday = NO_DATA;
 
-                float size = 0;
+                int size = 0;
                 if(!TextUtils.isDigitsOnly(sizeInput.getText()))
-                    size = Float.parseFloat(sizeInput.getText().toString());
+                    size = Integer.parseInt(sizeInput.getText().toString());
 
-                float weight = 0;
+                int weight = 0;
                 if(!TextUtils.isDigitsOnly(weightInput.getText()))
-                    weight = Float.parseFloat(weightInput.getText().toString());
+                    weight = Integer.parseInt(weightInput.getText().toString());
                 //endregion
 
                 //region Send infos
@@ -147,15 +151,9 @@ public class HeroCreationActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_FLAG && resultCode == Activity.RESULT_OK) {
-            try {
-                InputStream inputStream = getApplicationContext().getContentResolver().openInputStream(data.getData());
-                Bitmap myBitmap = BitmapFactory.decodeStream(inputStream);
-                globalIV.setImageBitmap(myBitmap);
-                mainImgPath = inputStream.toString();
-                // TODO create inputStream from string : InputStream is = new ByteArrayInputStream(StandardCharsets.UTF_16.encode(myString).array());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
+            Uri selectedImage = data.getData();
+            globalIV.setImageURI(selectedImage);
+            mainImgPath = selectedImage.toString();
         }
     }
 }

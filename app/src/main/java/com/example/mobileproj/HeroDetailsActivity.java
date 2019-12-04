@@ -2,12 +2,23 @@ package com.example.mobileproj;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 public class HeroDetailsActivity extends AppCompatActivity {
 
-    private TextView tv;
+    private ImageView globalIV;
+    private TextView licenceTV, nameTV, worldTV, genderTV, bdayTV, sizeTV, weightTV;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,10 +26,40 @@ public class HeroDetailsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hero_details);
 
 
-        tv = findViewById(R.id.tv);
+        //region Layout elements assignation
+        globalIV = findViewById(R.id.globalIV);
+        licenceTV = findViewById(R.id.licenceTV);
+        nameTV = findViewById(R.id.nameTV);
+        worldTV = findViewById(R.id.worldTV);
+        genderTV = findViewById(R.id.genderTV);
+        bdayTV = findViewById(R.id.bdayTV);
+        sizeTV = findViewById(R.id.sizeTV);
+        weightTV = findViewById(R.id.weightTV);
+        //endregion
+
 
         Hero hero = (Hero) getIntent().getSerializableExtra("ClickedHero");
 
-        tv.setText("Details for " + hero.toString());
+        if (hero.getImgPath() != null && hero.getImgPath().length() > 0) {
+            Uri imgUri = Uri.parse(hero.getImgPath());
+            globalIV.setImageURI(imgUri);
+            Toast.makeText(getApplicationContext(), "'" + hero.getImgPath() + "'", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "aucune image", Toast.LENGTH_LONG).show();
+        }
+
+        String world = hero.getHomeWorld();
+        String gender = hero.getGender();
+        String bday = hero.getBirthDate();
+        int size = hero.getSize();
+        int weight = hero.getWeight();
+
+        licenceTV.setText((hero.isFromSW() ? "Star Wars" : "Marvel"));
+        nameTV.setText(hero.getHeroName());
+        worldTV.setText(world.length() <= 0 ? "Monde d'origine\ninconnu" : "Originaire de " + world);
+        genderTV.setText(gender.length() <= 0 ? "Genre inconnu" : gender);
+        bdayTV.setText(bday.length() <= 0 ? "Date de naissance\ninconnue" : "Né" + (gender.equals("Femme") ? "e" : "") + " en " + bday);
+        sizeTV.setText(size <= 0 ? "Taille inconnue" : size + " cm");
+        weightTV.setText(weight <= 0 ? "Poids inconnu" : weight + " kg");
     }
 }

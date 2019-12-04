@@ -16,26 +16,17 @@ public class Hero implements Serializable {
     private String birthDate;
     private String homeWorld;
     private String gender;
-    private float size;
-    private float weight;
+    private int size;
+    private int weight;
     private String imgPath;
 
     private ArrayList<Equipment> equipments;
     private ArrayList<Film> films;
 
     /**
-     * Temp consructor
-     */
-    public Hero(boolean isFromSW, String heroName) {
-        id++;
-        this.isFromSW = isFromSW;
-        this.heroName = heroName;
-    }
-
-    /**
      * Create a new hero with parameters
      */
-    public Hero(boolean isFromSW, boolean isFavorite, String heroName, String homeWorld, String gender, String birthDate, float size, float weight, String imgPath, List<Equipment> equipments, List<Film> films) {
+    public Hero(boolean isFromSW, boolean isFavorite, String heroName, String homeWorld, String gender, String birthDate, int size, int weight, String imgPath, List<Equipment> equipments, List<Film> films) {
         this.isFromSW = isFromSW;
         this.isFavorite = isFavorite;
         this.heroName = heroName;
@@ -45,7 +36,7 @@ public class Hero implements Serializable {
         this.size = size;
         this.weight = weight;
         this.imgPath = imgPath;
-        this.equipments = new ArrayList<>(equipments);
+        this.equipments = new ArrayList<>(equipments != null ? equipments : null);
         this.films = new ArrayList<>(films);
     }
 
@@ -105,5 +96,37 @@ public class Hero implements Serializable {
 
     public boolean isFav() {
         return isFavorite;
+    }
+
+    public String getBirthDate() {
+        return birthDate;
+    }
+
+    public String getHomeWorld() {
+        return homeWorld;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public String getImgPath() {
+        return imgPath;
+    }
+
+    public ArrayList<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    public ArrayList<Film> getFilms() {
+        return films;
     }
 }
