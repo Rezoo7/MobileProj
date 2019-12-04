@@ -1,13 +1,10 @@
 package com.example.mobileproj;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonArray;
@@ -18,7 +15,8 @@ import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ListActivity extends AppCompatActivity {
 
@@ -26,8 +24,6 @@ public class ListActivity extends AppCompatActivity {
     private EditText heroInput;
     private Button clearBtn;
     private TabLayout herosTab;
-    private TextView srchTextView;
-    private TextView tabTextView;
     private ListView herosListView;
     //endregion
 
@@ -41,8 +37,6 @@ public class ListActivity extends AppCompatActivity {
         heroInput = findViewById(R.id.heroInput);
         clearBtn = findViewById(R.id.clearBtn);
         herosTab = findViewById(R.id.herosTab);
-        srchTextView = findViewById(R.id.srchTextView);
-        tabTextView = findViewById(R.id.tabTextView);
         herosListView = findViewById(R.id.herosListView);
         //endregion
 

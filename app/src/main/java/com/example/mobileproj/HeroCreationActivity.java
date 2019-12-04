@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -119,13 +118,32 @@ public class HeroCreationActivity extends AppCompatActivity {
                 String bday = bdayInput.getText().toString();
                 if(TextUtils.isEmpty(bdayInput.getText())) bday = NO_DATA;
 
-                int size = 5;
-                if(!TextUtils.isDigitsOnly(sizeInput.getText()))
-                    size = Integer.parseInt(sizeInput.getText().toString());
+                boolean hasInputSizeProb = false, hasInputWeightProb = false;
 
-                int weight = 5;
-                if(!TextUtils.isDigitsOnly(weightInput.getText()))
-                    weight = Integer.parseInt(weightInput.getText().toString());
+                int size = 0;
+                String sizeStr = sizeInput.getText().toString();
+                if (sizeStr != null && !sizeStr.equals("")) {
+                    if (TextUtils.isDigitsOnly(sizeStr))
+                        size = Integer.parseInt(sizeStr);
+                    else {
+                        hasInputSizeProb = true;
+                    }
+                }
+
+                int weight = 0;
+                String weightStr = weightInput.getText().toString();
+                if (weightStr != null && !weightStr.equals("")) {
+                    if (TextUtils.isDigitsOnly(weightStr))
+                        weight = Integer.parseInt(weightStr);
+                    else {
+                        hasInputWeightProb = true;
+                    }
+                }
+
+                String digitOnly = "Ce champ ne doit contenir que des chiffres";
+                if (hasInputSizeProb) sizeInput.setError(digitOnly);
+                if (hasInputWeightProb) weightInput.setError(digitOnly);
+                if (hasInputSizeProb || hasInputWeightProb) return;
                 //endregion
 
                 Hero hero = new Hero(isSW, isFav, heroName, homeworld, gender, bday, size, weight, mainImgPath, equipments, films);
@@ -136,7 +154,6 @@ public class HeroCreationActivity extends AppCompatActivity {
                 // Retrieve createdHeroes list
                 SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
                 String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
-                Toast.makeText(getApplicationContext(), "'" + heroesJSONtoGet + "'", Toast.LENGTH_LONG).show();
 
                 // Deserialization
                 Gson gson = new Gson();

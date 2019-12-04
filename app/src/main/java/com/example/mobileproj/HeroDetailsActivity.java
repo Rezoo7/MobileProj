@@ -1,19 +1,11 @@
 package com.example.mobileproj;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class HeroDetailsActivity extends AppCompatActivity {
 
@@ -53,9 +45,9 @@ public class HeroDetailsActivity extends AppCompatActivity {
 
         licenceTV.setText((hero.isFromSW() ? "Star Wars" : "Marvel"));
         nameTV.setText(hero.getHeroName());
-        worldTV.setText(world.length() <= 0 ? "Monde d'origine\ninconnu" : "Originaire de " + world);
+        worldTV.setText(world.length() <= 0 ? "Monde d'origine\ninconnu" : "Originaire de\n" + world);
         genderTV.setText(gender.length() <= 0 ? "Genre inconnu" : gender);
-        bdayTV.setText(bday.length() <= 0 ? "Date de naissance\ninconnue" : "Né" + (gender.equals("Femme") ? "e" : "") + " en " + bday);
+        bdayTV.setText(bday.length() <= 0 ? "Date de naissance\ninconnue" : "Naissance : \n" + bday);
         sizeTV.setText(size <= 0 ? "Taille inconnue" : size + " cm");
         weightTV.setText(weight <= 0 ? "Poids inconnu" : weight + " kg");
     }

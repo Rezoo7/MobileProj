@@ -13,7 +13,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -40,8 +39,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
     private EditText heroInput;
     private Button clearBtn;
     private TabLayout herosTab;
-    private TextView srchTextView;
-    private TextView tabTextView;
     private ListView herosListView;
     //endregion
 
@@ -61,8 +58,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroInput = findViewById(R.id.heroInput);
         clearBtn = findViewById(R.id.clearBtn);
         herosTab = findViewById(R.id.herosTab);
-        srchTextView = findViewById(R.id.srchTextView);
-        tabTextView = findViewById(R.id.tabTextView);
         herosListView = findViewById(R.id.herosListView);
         FloatingActionButton fab = findViewById(R.id.fab);
         //endregion
@@ -96,7 +91,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         // Retrieve createdHeroes list
         SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
         String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
-        Toast.makeText(getApplicationContext(), "'" + heroesJSONtoGet + "'", Toast.LENGTH_LONG).show();
 
         // Deserialization
         Gson gson = new Gson();
@@ -106,8 +100,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         // Add savedHeroes to the main list
         if (savedHeroes == null) savedHeroes = new ArrayList<>();
         heroes[0].addAll(savedHeroes);
-        //Toast.makeText(getApplicationContext(), savedHeroes.size() + " héros sauvegardés", Toast.LENGTH_LONG).show();
-
 
         // Browse all heroes to distribute them in star wars or marvel list
         for (Hero hero : heroes[0]) {
@@ -181,7 +173,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
 
                 */
 
-                srchTextView.setText(charSequence);
                 filterAndPopulateAdapter();
             }
         });
@@ -194,7 +185,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 openedTab = herosTab.getSelectedTabPosition();
-                tabTextView.setText("Opened tab : " + openedTab);
 
                 // Clear and repopulate with new list
                 heroesAdapter.clear();
