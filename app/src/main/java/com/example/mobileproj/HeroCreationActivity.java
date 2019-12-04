@@ -1,6 +1,7 @@
 package com.example.mobileproj;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -15,6 +16,9 @@ import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,12 +26,6 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonSerializer;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
 
 public class HeroCreationActivity extends AppCompatActivity {
 
@@ -136,7 +134,7 @@ public class HeroCreationActivity extends AppCompatActivity {
                 //region Add the new hero to the list of the created
 
                 // Retrieve createdHeroes list
-                SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+                SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
                 String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
                 Toast.makeText(getApplicationContext(), "'" + heroesJSONtoGet + "'", Toast.LENGTH_LONG).show();
 
@@ -156,7 +154,7 @@ public class HeroCreationActivity extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), "'" + heroesJSONtoSet + "'", Toast.LENGTH_LONG).show();
 
                 // Save createdHeroes to sharedPreferences
-                SharedPreferences.Editor prefsEditor = getPreferences(MODE_PRIVATE).edit();
+                SharedPreferences.Editor prefsEditor = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE).edit();
                 prefsEditor.putString("CreatedHeroes", heroesJSONtoSet);
                 prefsEditor.commit();
                 //endregion
@@ -166,7 +164,7 @@ public class HeroCreationActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("CreatedHero", hero);
                 setResult(Activity.RESULT_OK, intent);
-                //finish(); // TODO : REMOVE COMMENT
+                finish();
                 //endregion
             }
         });

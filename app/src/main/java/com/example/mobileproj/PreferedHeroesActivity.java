@@ -1,6 +1,7 @@
 package com.example.mobileproj;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -93,7 +94,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
 
 
         // Retrieve createdHeroes list
-        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
         String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
         Toast.makeText(getApplicationContext(), "'" + heroesJSONtoGet + "'", Toast.LENGTH_LONG).show();
 
