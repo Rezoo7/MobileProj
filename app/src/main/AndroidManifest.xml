@@ -12,13 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HeroDetailsActivity"></activity>
+        <activity android:name=".ListActivity"></activity>
+        <activity android:name=".HeroDetailsActivity" />
         <activity android:name=".HeroCreationActivity" />
         <activity
             android:name=".PreferedHeroesActivity"
             android:label="@string/title_activity_prefered_heroes"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ListeActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
