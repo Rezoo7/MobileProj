@@ -16,6 +16,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/bg" />
 
+    <ImageView
+        android:id="@+id/starIV"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/globalIV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/star_0" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"

@@ -1,16 +1,30 @@
 package com.example.mobileproj;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 public class HeroDetailsActivity extends AppCompatActivity {
 
-    private ImageView globalIV;
+    private ImageView globalIV, starIV;
     private TextView licenceTV, nameTV, worldTV, genderTV, bdayTV, sizeTV, weightTV;
+
+    Hero hero;
+    private boolean isFav = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +34,7 @@ public class HeroDetailsActivity extends AppCompatActivity {
 
         //region Layout elements assignation
         globalIV = findViewById(R.id.globalIV);
+        starIV = findViewById(R.id.starIV);
         licenceTV = findViewById(R.id.licenceTV);
         nameTV = findViewById(R.id.nameTV);
         worldTV = findViewById(R.id.worldTV);
@@ -30,7 +45,9 @@ public class HeroDetailsActivity extends AppCompatActivity {
         //endregion
 
 
-        Hero hero = (Hero) getIntent().getSerializableExtra("ClickedHero");
+        // TODO : initialise isFav and starIV from shared preferences
+
+        hero = (Hero) getIntent().getSerializableExtra("ClickedHero");
 
         if (hero.getImgPath() != null && hero.getImgPath().length() > 0) {
             Uri imgUri = Uri.parse(hero.getImgPath());
@@ -50,5 +67,47 @@ public class HeroDetailsActivity extends AppCompatActivity {
         bdayTV.setText(bday.length() <= 0 ? "Date de naissance\ninconnue" : "Naissance : \n" + bday);
         sizeTV.setText(size <= 0 ? "Taille inconnue" : size + " cm");
         weightTV.setText(weight <= 0 ? "Poids inconnu" : weight + " kg");
+
+
+        starIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isFav = !isFav;
+                String imgName = "star_" + (isFav ? "1" : "0"); // star_0.png = empty star ; star_1.png = checked star
+
+                int resID = getResources().getIdentifier(imgName , "drawable", getPackageName());
+                starIV.setImageDrawable(ContextCompat.getDrawable(view.getContext(), resID));
+            }
+        });
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (isFav) {
+            // Retrieve createdHeroes list
+            SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
+            String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
+
+            // Deserialization
+            Gson gson = new Gson();
+            Type collectionType = new TypeToken<Collection<Hero>>(){}.getType();
+            Collection<Hero> savedHeroes = gson.fromJson(heroesJSONtoGet, collectionType);
+
+            // Add the new hero only if he isn't already in our favorites
+            if (!savedHeroes.contains(hero)) { // TODO : doesnt work
+                // Add the new hero
+                if (savedHeroes == null) savedHeroes = new ArrayList<>();
+                savedHeroes.add(hero);
+
+                // Serialization
+                String heroesJSONtoSet = gson.toJson(savedHeroes);
+
+                // Save createdHeroes to sharedPreferences
+                SharedPreferences.Editor prefsEditor = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE).edit();
+                prefsEditor.putString("CreatedHeroes", heroesJSONtoSet);
+                prefsEditor.commit();
+            }
+        }
     }
 }

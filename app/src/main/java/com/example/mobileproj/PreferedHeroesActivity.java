@@ -132,47 +132,6 @@ public class PreferedHeroesActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // TODO rechercher dans les API (ou pas ici)
-
-               /* Retrofit retro = new Retrofit.Builder()
-                        .baseUrl("https://swapi.co/api/people/1")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
-                API api = retro.create(API.class);
-                Call<List<Hero>> call = (Call<List<Hero>>) api.getPosts();
-
-                call.enqueue(new Callback<List<Hero>>() {
-                    @Override
-                    public void onResponse(Call<List<Hero>> call, Response<List<Hero>> response) {
-
-                        if(!response.isSuccessful()){
-                            System.out.println("Code: "+ response.code());
-                            return;
-                        }
-
-                        List<Hero> heros = response.body();
-
-                        for(Hero hero : heros){
-
-                            String name = hero.getHeroName();
-
-                            Hero h = new Hero(true,name);
-
-                            String content = "";
-                            content += "Name : " + name + "\n";
-                            System.out.println(content);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Hero>> call, Throwable t) {
-                        System.out.println("BAH NON");
-                    }
-                });
-
-                */
-
                 filterAndPopulateAdapter();
             }
         });

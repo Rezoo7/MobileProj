@@ -1,7 +1,5 @@
 package com.example.mobileproj;
 
-import org.json.JSONArray;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -41,13 +39,6 @@ public class Hero implements Serializable {
     }
 
     /**
-     * Create a new hero with a json array
-     */
-    public Hero(JSONArray data) {
-        // TODO remplir attributs avec tableau json
-    }
-
-    /**
      * Add an equipment to the list of equipments
      * @param equipment Equipment to add
      */
@@ -72,8 +63,7 @@ public class Hero implements Serializable {
     }
 
     public String toString() {
-        String str = heroName
-                + " " + (isFromSW ? "<SW>" : "<M>");
+        String str = heroName;
         return str;
     }
 
