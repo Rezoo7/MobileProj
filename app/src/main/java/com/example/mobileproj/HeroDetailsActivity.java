@@ -24,7 +24,8 @@ public class HeroDetailsActivity extends AppCompatActivity {
     private TextView licenceTV, nameTV, worldTV, genderTV, bdayTV, sizeTV, weightTV;
 
     Hero hero;
-    private boolean isFav = false;
+    private boolean isFav;
+    private boolean prevFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,10 +45,32 @@ public class HeroDetailsActivity extends AppCompatActivity {
         weightTV = findViewById(R.id.weightTV);
         //endregion
 
-
-        // TODO : initialise isFav and starIV from shared preferences
-
         hero = (Hero) getIntent().getSerializableExtra("ClickedHero");
+
+
+        // Retrieve isFav from shared preferences if exists
+        SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
+        String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
+
+        // Deserialization
+        Gson gson = new Gson();
+        Type collectionType = new TypeToken<Collection<Hero>>() {
+        }.getType();
+        Collection<Hero> savedHeroes = gson.fromJson(heroesJSONtoGet, collectionType);
+        if (savedHeroes == null) isFav = false;
+        else {
+            for (Hero h : savedHeroes) {
+                if (h.getHeroName().equals(hero.getHeroName())) {
+                    isFav = true;
+                    break;
+                }
+            }
+        }
+
+        prevFav = isFav;
+        setStarIV(getApplicationContext());
+
+
 
         if (hero.getImgPath() != null && hero.getImgPath().length() > 0) {
             Uri imgUri = Uri.parse(hero.getImgPath());
@@ -73,10 +96,7 @@ public class HeroDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 isFav = !isFav;
-                String imgName = "star_" + (isFav ? "1" : "0"); // star_0.png = empty star ; star_1.png = checked star
-
-                int resID = getResources().getIdentifier(imgName , "drawable", getPackageName());
-                starIV.setImageDrawable(ContextCompat.getDrawable(view.getContext(), resID));
+                setStarIV(view.getContext());
             }
         });
     }
@@ -84,30 +104,43 @@ public class HeroDetailsActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
-        if (isFav) {
+
+        // If his fav value changed, add or remove from shared preferences
+        if (prevFav != isFav) {
             // Retrieve createdHeroes list
             SharedPreferences prefs = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE);
             String heroesJSONtoGet = prefs.getString("CreatedHeroes", "");
 
             // Deserialization
             Gson gson = new Gson();
-            Type collectionType = new TypeToken<Collection<Hero>>(){}.getType();
+            Type collectionType = new TypeToken<Collection<Hero>>() {
+            }.getType();
             Collection<Hero> savedHeroes = gson.fromJson(heroesJSONtoGet, collectionType);
+            if (savedHeroes == null) savedHeroes = new ArrayList<>();
 
-            // Add the new hero only if he isn't already in our favorites
-            if (!savedHeroes.contains(hero)) { // TODO : doesnt work
-                // Add the new hero
-                if (savedHeroes == null) savedHeroes = new ArrayList<>();
+            // Add the new hero only if he is liked and isn't already in our favorites
+            if (isFav && !Utils.contains(savedHeroes, hero)) {
                 savedHeroes.add(hero);
 
-                // Serialization
-                String heroesJSONtoSet = gson.toJson(savedHeroes);
-
-                // Save createdHeroes to sharedPreferences
-                SharedPreferences.Editor prefsEditor = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE).edit();
-                prefsEditor.putString("CreatedHeroes", heroesJSONtoSet);
-                prefsEditor.commit();
+            // Remove the hero only if he isn't fav and is in the list
+            } else if (!isFav && Utils.contains(savedHeroes, hero)) {
+                savedHeroes.remove(hero);
             }
+
+            // Serialization
+            String heroesJSONtoSet = gson.toJson(savedHeroes);
+
+            // Save createdHeroes to sharedPreferences
+            SharedPreferences.Editor prefsEditor = getSharedPreferences("GLOBAL", Context.MODE_PRIVATE).edit();
+            prefsEditor.putString("CreatedHeroes", heroesJSONtoSet);
+            prefsEditor.commit();
         }
+    }
+
+    public void setStarIV(Context context) {
+        String imgName = "star_" + (isFav ? "1" : "0"); // star_0.png = empty star ; star_1.png = checked star
+
+        int resID = getResources().getIdentifier(imgName , "drawable", getPackageName());
+        starIV.setImageDrawable(ContextCompat.getDrawable(context, resID));
     }
 }

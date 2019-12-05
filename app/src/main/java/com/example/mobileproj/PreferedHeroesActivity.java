@@ -76,7 +76,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroes = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
 
         //region Hard coded data
-        List<Equipment> e = new ArrayList<>();
+        /*List<Equipment> e = new ArrayList<>();
         List<Film> f = new ArrayList<>();
         heroes[0].add(new Hero(false, true, "Amélie Thomas", "St Jean", "Femme", "19/09/2001", 168, 56, "", e, f));
         heroes[0].add(new Hero(true, true, "Stephanie Malherbe", "Pacé", "Femme", "18/11/1998", 175, 54, "", e, f));
@@ -84,7 +84,7 @@ public class PreferedHeroesActivity extends AppCompatActivity {
         heroes[0].add(new Hero(false, true, "Louis Lebrun", "St Jean", "Homme", "06/12/1999", 182, 67, "", e, f));
         heroes[0].add(new Hero(true, true, "Jason Giffard", "Montviron", "Homme", "06/04/1998", 175, 76, "", e, f));
         heroes[0].add(new Hero(false, true, "Alexis Leleu", "St Jean", "Homme", "21/01/2000", 172, 62, "", e, f));
-        heroes[0].add(new Hero(false, true, "Erwan Dufourt", "Granville", "Homme", "31/01/1999", 174, 72, "", e, f));
+        heroes[0].add(new Hero(false, true, "Erwan Dufourt", "Granville", "Homme", "31/01/1999", 174, 72, "", e, f));*/
         //endregion
 
 
