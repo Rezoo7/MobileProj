@@ -82,7 +82,7 @@ public class ListActivity extends AppCompatActivity {
 
                                 List<Equipment> equips = new ArrayList<>();
                                 List<Film> films = new ArrayList<>();
-                                Hero hero = new Hero(true, false, heroName, "Monde d'origine\ninconnu", gender, birthDate, size, weight, "", equips, films);
+                                Hero hero = new Hero(true, false, heroName, "inconnu", gender, birthDate, size, weight, "", equips, films);
 
                                 heroes[0].add(hero); // Add to all
                                 heroes[1].add(hero); // Add to Star Wars
